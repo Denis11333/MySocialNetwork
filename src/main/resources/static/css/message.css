@@ -1,0 +1,15 @@
+.message{
+    width: 300px;
+    height: 35px;
+    font-size: 20px;
+    background-color: #00ffff;
+    opacity: 0.50;
+}
+.messageFriend{
+    width: 350px;
+    height: 35px;
+    font-size: 20px;
+    background-color: lightgreen;
+    opacity: 0.50;
+    color: black;
+}

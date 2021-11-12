@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link th:href="@{/css/login.css}" rel="stylesheet"/>
+</head>
+<body>
+
+
+<div id='container'>
+    <div class='signup'>
+        <form th:action="@{/login}" th:method="post">
+            <h6 th:if="${param.error}">Некоректе ім'я або пароль</h6>
+            <h5 th:if="${param.logout}">Ви вийшли з аккаунту</h5>
+            <input type='text' required minlength="2" maxlength="15" name="username" placeholder='Name:'/>
+            <input type='password' required minlength="5" maxlength="15" name="password" placeholder='Password:'/>
+            <input type='submit' placeholder='SUBMIT' value="Login"/>
+            <br>
+            <a href="/registration">Register account</a>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

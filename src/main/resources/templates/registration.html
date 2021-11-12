@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link th:href="@{/css/registration.css}" rel="stylesheet"/>
+</head>
+<body>
+
+
+<div id='container'>
+
+    <div class='signup'>
+        <form th:action="@{/registration}" th:method="post">
+            <div th:if="${message != null}" class="message">
+                <label>
+                    <input type='text' value="Username is already in use" required minlength="5" maxlength="15"
+                           name="username" placeholder='Name:'/>
+                </label>
+            </div>
+
+            <div th:if="${message == null}" class="message">
+                <label>
+                    <input type='text' required minlength="2" maxlength="15" name="username" placeholder='Name:'/>
+                </label>
+            </div>
+
+            <label>
+                <input type='password' required minlength="5" maxlength="15" name="password" placeholder='Password:'/>
+            </label>
+            <label>
+                <input type='text' required minlength="1" maxlength="1" name="facultyNumber" placeholder='Faculty:'/>
+            </label>
+            <label>
+                <input type='text' required minlength="3" maxlength="3" name="groupNumber" placeholder='Group:'/>
+            </label>
+            <input type='submit' placeholder='SUBMIT' value="Register"/>
+            <br>
+            <a href="/login">account already exist</a>
+        </form>
+    </div>
+    <div class='whysign'>
+        <h1>Форум для Курсантів ВІТІ</h1>
+        <p>Створений для взаємо допомоги в сфері програмування серед курсантів
+            ВІТІ, допомагайте один одному - це классно :)
+        </p>
+        <p>Мови програмування які підтримуются для пошуку товаришів:
+            <span>JavaScript</span>
+            <span>JAVA</span>
+            <span>C#</span>
+            <span>PHP</span>
+            <span>Пітухон</span>
+        </p>
+    </div>
+</div>
+
+</body>
+
+
+</html>

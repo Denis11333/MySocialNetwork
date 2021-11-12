@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/mainPage.css}" rel="stylesheet"/>
+    <link th:href="@{/css/profile.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<div class="topnav">
+    <a href="/">Main</a>
+    <a href="/profile">My Profile</a>
+    <a href="/findFriends">Find a friend</a>
+    <a href="/MyFriends">My Friends</a>
+    <a href="/chats">My Chats (Not Worked)</a>
+    <a href="/Admin">Admin panel</a>
+    <form th:action="@{/logout}" th:method="post" class="topnav">
+        <input type="submit" value="Logout" class="submitB">
+    </form>
+</div>
+
+<div>
+    <img th:src="@{/img/{filename}
+    (filename = ${MyUser.getAvatarName()})}" alt=""
+         width="300px"
+         height="200px"  class="img-rounded img-responsive">
+
+    <form th:method="post"  th:action="@{/profile}" enctype="multipart/form-data">
+        <input type="file" class="form-control" placeholder="" name="image" id="image"> <br>
+
+        <strong th:text="${MyUser}"></strong> <br>
+        Пароль :
+        <strong th:text="${MyUser.getPassword()}"></strong> <br>
+        Права :
+        <strong th:text="${MyUser.getRoles()}"></strong> <br>
+
+        Вкажіть які мови програмування ви вивчаєте ( з перелічених нижче ) :
+        <br>
+        <th:block th:each="languages : ${ProgrammingLanguages}">
+            <label class="btn btn-secondary active">
+                <input type="checkbox" th:checked="${MyUser.getProgrammingLanguages().contains(languages)}"
+                       th:name="${languages}" th:text="${languages}"/>
+            </label>
+        </th:block>
+
+        <br>
+        <input type="hidden" name="id" th:value="${MyUser.getId()}">
+        <label class="getRight">
+            <input class="btn btn-dark" type="submit" value="Save all">
+        </label>
+    </form>
+
+</div>
+
+</body>
+
+<!-- Bootstrap CSS (jsDelivr CDN) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!-- Bootstrap Bundle JS (jsDelivr CDN) -->
+<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</html>
