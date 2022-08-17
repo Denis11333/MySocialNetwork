@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h2>ALL ADMINS :</h2>
+
+<div th:each="user : ${users}">
+
+    <div th:if="${user.getStringRoles().contains('ADMIN')}">
+
+            <label>
+                Username :
+                <input type="text" th:value="${user.getUsername()}" readonly>
+            </label>
+            <label>
+                Password :
+                <input type="password" th:value="${user.getPassword()}" readonly>
+            </label>
+            <label>
+                Faculty :
+                <input type="text" th:value="${user.getFacultyNumber()}" readonly>
+            </label>
+            <label>
+                Group :
+                <input type="text" th:value="${user.getGroupNumber()}" readonly>
+            </label>
+
+    </div>
+
+</div>
+
+<h2>ALL USERS :</h2>
+
+<div th:each="user : ${users}">
+
+
+    <div th:if="${user.getStringRoles().contains('USER')}">
+
+        <form th:method="post" modelAttribute="User">
+            <input name="id" type="hidden" th:value="${user.getId()}">
+            <label>
+                Username (UNCHANGEABLE) :
+                <input name="username" type="text" th:value="${user.getUsername()}" readonly>
+            </label>
+            <label>
+                Password :
+                <input name="password" type="text" th:value="${user.getPassword()}">
+            </label>
+            <label>
+                Faculty :
+                <input name="facultyNumber" type="text" th:value="${user.getFacultyNumber()}">
+            </label>
+            <label>
+                Group :
+                <input name="groupNumber" type="text" th:value="${user.getGroupNumber()}">
+            </label>
+            <input type="submit" value="save user">
+        </form>
+
+    </div>
+
+</div>
+
+<form action="/" th:method="get">
+    <input type="submit" value="to main page">
+</form>
+
+</body>
+</html>

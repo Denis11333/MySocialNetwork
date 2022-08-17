@@ -12,6 +12,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -52,7 +53,7 @@ public class FriendController {
         List<User> users = userRepository.findAll();
 
         User user = userRepository.findByUsername(principal.getName());
-        List<User> userFriends = user.getFriends();
+        Set<User> userFriends = user.getFriends();
 
         model.addAttribute("Friends", userFriends);
 

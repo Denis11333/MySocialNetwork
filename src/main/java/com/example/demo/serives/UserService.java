@@ -1,5 +1,6 @@
 package com.example.demo.serives;
 
+import com.example.demo.models.Chat;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +8,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -18,6 +22,9 @@ public class UserService implements UserDetailsService {
         this.userRepo = userRepo;
     }
 
+    public Set<Chat> usersChat(User user){
+        return user.getChats().stream().filter(x -> x.getUsers().size() > 2).collect(Collectors.toSet());
+    }
 
     public void addFriend(String name, Integer friendId) {
         User user = userRepo.findByUsername(name);
@@ -36,12 +43,12 @@ public class UserService implements UserDetailsService {
 
         user.getApplicationToFriends().add(friendUser);
 
-        if(friendUser.getApplicationToFriends().contains(user)){
+        if (friendUser.getApplicationToFriends().contains(user)) {
             addFriend(user.getUsername(), FriendId);
         }
     }
 
-    public void deleteFriend(String name, Integer FriendId){
+    public void deleteFriend(String name, Integer FriendId) {
         User user = userRepo.findByUsername(name);
         User friendUser = userRepo.findById(FriendId).orElseThrow(() -> new RuntimeException("delete Friend error"));
 
@@ -53,4 +60,5 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
     }
+
 }
