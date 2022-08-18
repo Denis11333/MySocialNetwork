@@ -54,6 +54,10 @@ public class User extends DefaultHandshakeHandler implements UserDetails {
     @JsonIgnore
     private List<User> applicationToFriends = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "activeUsers", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Chat> activeChats = new ArrayList<>();
+
     public String getStringRoles(){
         return roles.toString();
     }

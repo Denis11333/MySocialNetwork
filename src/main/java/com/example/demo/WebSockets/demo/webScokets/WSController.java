@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -63,7 +64,7 @@ public class WSController {
 
 //        chat.getUsers().forEach(x -> System.out.println(x.getUsername()));
 
-        for (User user : chat.getUsers().stream().distinct().collect(Collectors.toList())) {
+        for (User user : chat.getActiveUsers().stream().distinct().collect(Collectors.toList())) {
             service.notifyUser(user.getUsername(), message1);
         }
 
@@ -75,4 +76,10 @@ public class WSController {
 
         return "Chating";
     }
+
+    public static String makeUrl(HttpServletRequest request)
+    {
+        return request.getRequestURL().toString() + "?" + request.getQueryString();
+    }
+
 }

@@ -22,13 +22,15 @@ function connect() {
 
         console.log('Connected: ' + frame);
 
-        stompClient.subscribe('/topic/messages', function (message) {
+        stompClient.subscribe('/topic/messages/', function (message) {
             const newMessage = JSON.parse(message.body);
+
             showMessage(newMessage.text + " by");
         });
 
         stompClient.subscribe('/user/topic/private-messages', function (message) {
             const userMessage = JSON.parse(message.body);
+
             showMessage(userMessage);
         });
 
@@ -43,15 +45,15 @@ function showMessage(message) {
     img.setAttribute("width", "90");
     img.setAttribute('height', "78");
 
+    var div = document.getElementById("messages")
 
-    console.log(img);
-
-
-    $("#messages").prepend("<nobr>" + " : " +  message.text + "</nobr>" + "<br>" +
+    $(div).prepend("<nobr>" + " : " +  message.text + "</nobr>" + "<br>" +
         "<strong>" + "date of send :" + message.time +  "</strong>"
     );
-    $("#messages").prepend(img);
-    $("#messages").prepend("<br>" +
+
+    $(div).prepend(img);
+
+    $(div).prepend("<br>" +
         "<nobr style='color: blue'>" + message.user.username + "</nobr>")
 }
 

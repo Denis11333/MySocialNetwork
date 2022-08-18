@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,12 @@ public class UserService implements UserDetailsService {
         this.userRepo = userRepo;
     }
 
-    public Set<Chat> usersChat(User user){
+    public Set<Chat> usersChatUsersBiggestThanTwo(User user){
         return user.getChats().stream().filter(x -> x.getUsers().size() > 2).collect(Collectors.toSet());
+    }
+
+    public Set<Chat> usersActiveChat(User user){
+        return new HashSet<>(user.getActiveChats());
     }
 
     public void addFriend(String name, Integer friendId) {
@@ -56,9 +61,16 @@ public class UserService implements UserDetailsService {
         friendUser.getFriends().remove(user);
     }
 
+    public void deleteAllActivity(Set<Chat> chats, User user){
+
+       chats.forEach(x -> x.getActiveUsers().remove(user));
+
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
     }
+
 
 }

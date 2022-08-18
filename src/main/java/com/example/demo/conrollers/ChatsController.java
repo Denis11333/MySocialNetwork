@@ -4,6 +4,7 @@ import com.example.demo.models.Chat;
 import com.example.demo.models.User;
 import com.example.demo.repositories.ChatRepository;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.serives.ChatService;
 import com.example.demo.serives.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +22,14 @@ public class ChatsController {
     private final UserRepository userRepository;
     private final UserService userService;
 
+    private final ChatService chatService;
+
     public ChatsController(UserRepository userRepository, ChatRepository chatRepository,
-                           UserService userService) {
+                           UserService userService, ChatService chatService) {
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
         this.userService = userService;
+        this.chatService = chatService;
     }
 
     @GetMapping("/createChat")
@@ -71,22 +75,26 @@ public class ChatsController {
 
         Set<User> friends = user.getFriends();
 
+        userService.deleteAllActivity(userService.usersActiveChat(user), user);
+
         model.addAttribute("friends", friends);
-        model.addAttribute("usersChats", userService.usersChat(user));
+        model.addAttribute("usersChats", userService.usersChatUsersBiggestThanTwo(user));
 
 
         return "Chats";
     }
 
-    @GetMapping()
+    @GetMapping
     public String showAllChats(Model model, Principal principal) {
 
         User user = userRepository.findByUsername(principal.getName());
 
         Set<User> friends = user.getFriends();
 
+        userService.deleteAllActivity(userService.usersActiveChat(user), user);
+
         model.addAttribute("friends", friends);
-        model.addAttribute("usersChats", userService.usersChat(user));
+        model.addAttribute("usersChats", userService.usersChatUsersBiggestThanTwo(user));
 
         return "Chats";
     }
@@ -119,6 +127,8 @@ public class ChatsController {
             myChat = firstChat;
         }
 
+        chatService.addToActiveUser(myChat,userRepository.findByUsername(principal.getName()));
+
         model.addAttribute("chat", myChat);
         model.addAttribute("MyUser", myUser);
 
@@ -129,8 +139,12 @@ public class ChatsController {
     public String chatingRoom(Model model, @RequestParam("chatId") Integer chatId, Principal principal) {
         model.addAttribute("chat", chatRepository.findById(chatId).get());
         Chat chat = chatRepository.findById(chatId).get();
+
         System.out.println(chat.getId());
         System.out.println(chat.getUsers().size());
+
+        chatService.addToActiveUser(chat,userRepository.findByUsername(principal.getName()));
+
         model.addAttribute("MyUser", userRepository.findByUsername(principal.getName()));
         return "Chating";
     }

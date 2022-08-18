@@ -18,7 +18,6 @@ public class Chat {
 
     private String chatName;
 
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_chats",
@@ -26,6 +25,14 @@ public class Chat {
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     List<User> users = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "activechats_users",
+            joinColumns = {@JoinColumn(name = "chat_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    List<User> activeUsers = new ArrayList<>();
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
@@ -40,4 +47,5 @@ public class Chat {
         users.add(user);
         user.getChats().add(this);
     }
+
 }

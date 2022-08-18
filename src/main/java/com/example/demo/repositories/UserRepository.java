@@ -9,4 +9,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsername(String name);
     List<User> findByUsernameNot(String name);
     List<User> findByIdIn(List<Integer> integers);
+
 }

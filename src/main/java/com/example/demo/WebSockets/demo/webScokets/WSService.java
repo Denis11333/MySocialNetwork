@@ -2,8 +2,11 @@ package com.example.demo.WebSockets.demo.webScokets;
 
 import com.example.demo.models.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 @Service
 public class WSService {
@@ -23,6 +26,9 @@ public class WSService {
     }
 
     public void notifyUser(final String id, final Message message) {
+
+        System.out.println(message.getChat().getId());
+
         messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", message);
     }
 }
